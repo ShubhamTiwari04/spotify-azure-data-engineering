@@ -1,0 +1,23 @@
+{
+	"name": "azuresqldbLS",
+	"properties": {
+		"annotations": [],
+		"type": "AzureSqlDatabase",
+		"typeProperties": {
+			"server": "spotifysqlserver.database.windows.net",
+			"database": "db_spotify",
+			"encrypt": "mandatory",
+			"trustServerCertificate": false,
+			"authenticationType": "SQL",
+			"userName": "adminshubham",
+			"password": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "spotifyakvLS",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "spotifydbpassword"
+			}
+		}
+	}
+}
