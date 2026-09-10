@@ -7,9 +7,13 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "spotifyadfprojc"
 		},
-		"spotifyakvLS_properties_typeProperties_baseUrl": {
+		"adlsLS_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'adlsLS'"
+		},
+		"adlsLS_properties_typeProperties_url": {
 			"type": "string",
-			"defaultValue": "https://spotifyKeyVault.vault.azure.net/"
+			"defaultValue": "https://datalakespotify.dfs.core.windows.net/"
 		},
 		"azuresqldbLS_properties_typeProperties_server": {
 			"type": "string",
@@ -22,6 +26,10 @@
 		"azuresqldbLS_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "adminshubham"
+		},
+		"spotifyakvLS_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://spotifyKeyVault.vault.azure.net/"
 		},
 		"containerUri": {
 			"type": "string",
@@ -49,6 +57,12 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
+					},
+					"adlsLS_accountKey": {
+						"value": "[parameters('adlsLS_accountKey')]"
+					},
+					"adlsLS_properties_typeProperties_url": {
+						"value": "[parameters('adlsLS_properties_typeProperties_url')]"
 					},
 					"spotifyakvLS_properties_typeProperties_baseUrl": {
 						"value": "[parameters('spotifyakvLS_properties_typeProperties_baseUrl')]"

@@ -5,8 +5,11 @@
 		"factoryName": {
 			"value": "spotifyadfprojc"
 		},
-		"spotifyakvLS_properties_typeProperties_baseUrl": {
-			"value": "https://spotifyKeyVault.vault.azure.net/"
+		"adlsLS_accountKey": {
+			"value": ""
+		},
+		"adlsLS_properties_typeProperties_url": {
+			"value": "https://datalakespotify.dfs.core.windows.net/"
 		},
 		"azuresqldbLS_properties_typeProperties_server": {
 			"value": "spotifysqlserver.database.windows.net"
@@ -16,6 +19,9 @@
 		},
 		"azuresqldbLS_properties_typeProperties_userName": {
 			"value": "adminshubham"
+		},
+		"spotifyakvLS_properties_typeProperties_baseUrl": {
+			"value": "https://spotifyKeyVault.vault.azure.net/"
 		},
 		"containerUri": {
 			"value": ""
