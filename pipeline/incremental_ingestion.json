@@ -305,12 +305,6 @@
 				"type": "WebActivity",
 				"dependsOn": [
 					{
-						"activity": "If Incremental Data",
-						"dependencyConditions": [
-							"Failed"
-						]
-					},
-					{
 						"activity": "AzureSQLToLake",
 						"dependencyConditions": [
 							"Failed"
