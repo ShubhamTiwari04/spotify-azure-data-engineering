@@ -54,7 +54,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "azuresqldbDS",
+						"referenceName": "azuresqldbmetadataDS",
 						"type": "DatasetReference"
 					}
 				]
@@ -89,13 +89,149 @@
 						"partitionOption": "None"
 					},
 					"dataset": {
-						"referenceName": "azuresqldbDS",
+						"referenceName": "azuresqldbmetadataDS",
 						"type": "DatasetReference"
 					},
 					"firstRowOnly": false
 				}
+			},
+			{
+				"name": "ForEach_Metadata",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Fetch table lists",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Fetch table lists').output.value",
+						"type": "Expression"
+					},
+					"isSequential": false,
+					"batchCount": 5,
+					"activities": [
+						{
+							"name": "If Full Load",
+							"type": "IfCondition",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"expression": {
+									"value": "@equals(item().load_type, 'Full')",
+									"type": "Expression"
+								},
+								"ifFalseActivities": [
+									{
+										"name": "Copy_Incremental_Load DB to ADLS",
+										"type": "Copy",
+										"state": "Inactive",
+										"onInactiveMarkAs": "Succeeded",
+										"dependsOn": [],
+										"policy": {
+											"timeout": "0.12:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"enableStaging": false
+										}
+									}
+								],
+								"ifTrueActivities": [
+									{
+										"name": "Copy_Full_Load DB to ADLS",
+										"type": "Copy",
+										"dependsOn": [],
+										"policy": {
+											"timeout": "0.12:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"source": {
+												"type": "AzureSqlSource",
+												"queryTimeout": "02:00:00",
+												"partitionOption": "None"
+											},
+											"sink": {
+												"type": "ParquetSink",
+												"storeSettings": {
+													"type": "AzureBlobFSWriteSettings"
+												},
+												"formatSettings": {
+													"type": "ParquetWriteSettings"
+												}
+											},
+											"enableStaging": false,
+											"translator": {
+												"type": "TabularTranslator",
+												"typeConversion": true,
+												"typeConversionSettings": {
+													"allowDataTruncation": true,
+													"treatBooleanAsNumber": false
+												}
+											}
+										},
+										"inputs": [
+											{
+												"referenceName": "azuresqldynamictablesDS",
+												"type": "DatasetReference",
+												"parameters": {
+													"table_name": {
+														"value": "@item().table_name",
+														"type": "Expression"
+													},
+													"schema_name": {
+														"value": "@item().schema_name",
+														"type": "Expression"
+													}
+												}
+											}
+										],
+										"outputs": [
+											{
+												"referenceName": "parquet_dynamic",
+												"type": "DatasetReference",
+												"parameters": {
+													"container": "bronze",
+													"folder": {
+														"value": "@concat(\n    item().schema_name,\n    '/',\n    item().table_name,\n    '/',\n    formatDateTime(utcnow(), 'yyyy-MM-dd')\n)",
+														"type": "Expression"
+													},
+													"file": {
+														"value": "@item().table_name",
+														"type": "Expression"
+													}
+												}
+											}
+										]
+									}
+								]
+							}
+						}
+					]
+				}
 			}
 		],
+		"parameters": {
+			"table": {
+				"type": "string"
+			},
+			"schema": {
+				"type": "string"
+			}
+		},
 		"annotations": []
 	}
 }
