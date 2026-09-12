@@ -1,6 +1,12 @@
 {
 	"name": "spotifyadfprojc",
 	"properties": {
+		"globalParameters": {
+			"spotifymetadata_file": {
+				"type": "string",
+				"value": "azure_sql_spotify_metadata_config.xlsx"
+			}
+		},
 		"trustModeClaimForMi": {
 			"value": "Disabled",
 			"editable": true
