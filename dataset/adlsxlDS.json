@@ -1,0 +1,41 @@
+{
+	"name": "adlsxlDS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "adlsLS",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "Sheet1",
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "azure_sql_spotify_metadata_config.xlsx",
+				"folderPath": "metadata",
+				"fileSystem": "metadatatables"
+			},
+			"firstRowAsHeader": true
+		},
+		"schema": [
+			{
+				"type": "String"
+			},
+			{
+				"type": "String"
+			},
+			{
+				"type": "String"
+			},
+			{
+				"type": "String"
+			},
+			{
+				"type": "String"
+			},
+			{
+				"type": "String"
+			}
+		]
+	}
+}
