@@ -1,1 +1,10 @@
-{}
+{
+	"spotifymetadata_file": {
+		"type": "string",
+		"value": "azure_sql_spotify_metadata_config.xlsx"
+	},
+	"spotifymetdata_container": {
+		"type": "string",
+		"value": "metadatatables"
+	}
+}
